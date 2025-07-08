@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drew Walton | Digital Portfolio</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        /* --- CSS STYLES --- */
+
+        /* ------------------- */
+        /* 1. Global & Variables */
+        /* ------------------- */
+        :root {
+            --bg-color: #0d0d0d;
+            --text-color: #e0e0e0;
+            --primary-color: #00aaff;
+            --secondary-color: #aa00ff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --blur-value: 12px;
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll from blobs */
+        }
+
+        /* ------------------- */
+        /* 2. Background Blobs */
+        /* ------------------- */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.7;
+        }
+
+        .blob1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-color);
+            top: -150px;
+            left: -150px;
+            animation: moveBlob1 15s infinite alternate;
+        }
+
+        .blob2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary-color);
+            bottom: -100px;
+            right: -100px;
+            animation: moveBlob2 18s infinite alternate;
+        }
+
+        @keyframes moveBlob1 {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(100px, 200px) scale(1.2); }
+        }
+
+        @keyframes moveBlob2 {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(-150px, -150px) scale(0.8); }
+        }
+
+        /* ------------------- */
+        /* 3. Glassmorphism Utility */
+        /* ------------------- */
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            -webkit-backdrop-filter: blur(var(--blur-value)); /* For Safari */
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ------------------- */
+        /* 4. Main Layout & SPA Pages */
+        /* ------------------- */
+        main {
+            padding: 20px;
+            padding-bottom: 100px; /* Space for fixed nav */
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: block; /* Shown by JS */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+        
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; margin-bottom: 20px; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+        p { margin-bottom: 15px; }
+        a { color: var(--primary-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ------------------- */
+        /* 5. Navigation (Mobile First) */
+        /* ------------------- */
+        nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style-type: none;
+            gap: 10px;
+        }
+
+        nav a {
+            padding: 10px 15px;
+            color: var(--text-color);
+            font-weight: 400;
+            border-radius: 12px;
+            transition: background 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+        
+        nav a.active {
+            background: var(--primary-color);
+            color: var(--bg-color);
+            font-weight: 600;
+        }
+        
+        .nav-text {
+            display: none; /* Hide text on mobile */
+        }
+        
+        /* ------------------- */
+        /* 6. Page-Specific Styles */
+        /* ------------------- */
+
+        /* Home Page */
+        #home .hero {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        #home .hero .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            margin-bottom: 20px;
+        }
+        #home .hero h1 {
+            color: #fff;
+        }
+        #home .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        /* Portfolio Page */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .project-card {
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .project-card h3 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .project-tags {
+            margin-bottom: 15px;
+        }
+        
+        .project-tags .tag {
+            display: inline-block;
+            background: rgba(0, 170, 255, 0.15);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .project-links a {
+            margin-right: 15px;
+            font-weight: 600;
+        }
+
+        /* Resume Page */
+        .resume-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .job {
+            margin-bottom: 20px;
+        }
+        
+        .job h3 {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+        }
+        .job h3 span:last-child {
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+        .job p {
+            font-style: italic;
+            color: var(--primary-color);
+        }
+        .job ul {
+            list-style-position: inside;
+            padding-left: 5px;
+        }
+        
+        .skills-list ul {
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skills-list li {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        
+        .contact-card {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .contact-card h3 {
+            margin-bottom: 20px;
+        }
+        
+        .contact-card .social-links a {
+            font-size: 1.8rem;
+            margin: 0 15px;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        .contact-card .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+
+        /* ------------------- */
+        /* 7. Media Queries (Desktop) */
+        /* ------------------- */
+        @media (min-width: 768px) {
+            main {
+                padding: 40px;
+                padding-top: 100px; /* Space for top nav */
+            }
+
+            h1 { font-size: 3.5rem; }
+
+            /* Move nav to top */
+            nav {
+                bottom: auto;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 15px;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+            
+            .nav-text {
+                display: inline; /* Show text on desktop */
+            }
+            
+            /* Portfolio Grid for tablets/desktops */
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Resume Layout */
+            .resume-content {
+                flex-direction: row;
+                gap: 40px;
+            }
+            .resume-section {
+                flex: 1;
+            }
+            .contact-section {
+                flex-basis: 300px;
+                flex-grow: 0;
+                flex-shrink: 0;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .project-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="background-shapes">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <main>
+        <!-- Page 1: Home -->
+        <section id="home" class="page active">
+            <div class="hero glass-container">
+                <img src="profilepic.jpg" alt="Profile Picture" class="profile-pic">
+                <h1>Drew Walton</h1>
+                <p class="subtitle">Creative AI Enthusiast & Web Engineer</p>
+                <p>
+                    Welcome to my digital space. I make cool stuff with AI and code, and can help you do the same.
+                </p>
+            </div>
+            <!-- You could add a "Latest Posts" section here -->
+        </section>
+
+        <!-- Page 2: Portfolio -->
+        <section id="portfolio" class="page">
+            <h2>My Projects</h2>
+            <div class="project-grid">
+                <!-- Project 1 -->
+                <div class="project-card glass-container">
+                    <img src="trackwiserx.png" alt="TrackwiseRX Dashboard Screenshot">
+                    <h3>TrackwiseRX</h3>
+                    <p>A web app for tracking medication adherence and other health metrics.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Tailwind</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Supabase</span>
+                        <span class="tag">Bolt.new</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://app.trackwiserx.com" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="project-card glass-container">
+                    <img src="ourlovestory.png" alt="Our Love Story Website Screenshot">
+                    <h3>Our Love Story</h3>
+                    <p>A web app for creating and sharing relationship milestones.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Tailwind</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Supabase</span>
+                        <span class="tag">Bolt.new</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://ourlovestory.online" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                        <a href="https://github.com/drewwalton19216801/ourlovestory" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="project-card glass-container">
+                    <img src="cube3d.png" alt="Project 3 Screenshot">
+                    <h3>cube3d</h3>
+                    <p>A 3D cube renderer with per-pixel lighting using Rust and the Druid GUI framework.</p>
+                    <div class="project-tags">
+                        <span class="tag">Rust</span>
+                        <span class="tag">Druid</span>
+                        <span class="tag">3D Graphics</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/drewwalton19216801/cube3d" target="_blank">GitHub <i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 3: Resume & Contact -->
+        <section id="resume" class="page">
+            <h2>Resume & Contact</h2>
+            <div class="resume-content">
+                <!-- Left Column: Experience -->
+                <div class="resume-section glass-container" style="padding: 25px;">
+                    <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
+                    <div class="job">
+                        <h3>IT Consultant <span>2020 - Present</span></h3>
+                        <p>The Headed West</p>
+                        <ul>
+                            <li>Managed and maintained client networks and systems.</li>
+                            <li>Maintained client website using WordPress and custom themes.</li>
+                        </ul>
+                    </div>
+                    <div class="job">
+                        <h3>Co-Founder & System Administrator <span>2013 - 2019</span></h3>
+                        <p>BasketBuild LLC</p>
+                        <ul>
+                            <li>Developed and maintained a custom file hosting web service for Android developers.</li> 
+                            <li>Managed and maintained server infrastructure.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Skills & Contact -->
+                <div class="contact-section">
+                    <div class="skills-list glass-container" style="padding: 25px; margin-bottom: 20px;">
+                        <h3><i class="fas fa-code"></i> Skills</h3>
+                        <ul>
+                            <li>Rust</li>
+                            <li>Go</li>
+                            <li>PHP</li>
+                            <li>Git</li>
+                            <li>Windows, Linux, MacOS</li>
+                        </ul>
+                    </div>
+                    <div class="contact-card glass-container">
+                        <h3>Get In Touch</h3>
+                        <p><a href="mailto:hi@dwalton.info">hi@dwalton.info</a></p>
+                        <div class="social-links">
+                            <a href="https://github.com/drewwalton19216801" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/drewwalton19216801/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Fixed Navigation Bar -->
+    <nav class="glass-container">
+        <ul>
+            <li><a href="#home" class="nav-link" data-target="home"><i class="fas fa-home"></i><span class="nav-text"> Home</span></a></li>
+            <li><a href="#portfolio" class="nav-link" data-target="portfolio"><i class="fas fa-folder-open"></i><span class="nav-text"> Portfolio</span></a></li>
+            <li><a href="#resume" class="nav-link" data-target="resume"><i class="fas fa-file-alt"></i><span class="nav-text"> Resume</span></a></li>
+        </ul>
+    </nav>
+    
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+
+            // Function to handle page switching
+            function showPage(targetId) {
+                // Hide all pages
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // Show the target page
+                const targetPage = document.getElementById(targetId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                // Update active state on nav links
+                navLinks.forEach(link => {
+                    if (link.dataset.target === targetId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            // Add click event listeners to nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default anchor link behavior
+                    const targetId = this.dataset.target;
+                    showPage(targetId);
+                    
+                    // Optional: Update URL hash without jumping
+                    if(history.pushState) {
+                        history.pushState(null, null, '#' + targetId);
+                    } else {
+                        location.hash = '#' + targetId;
+                    }
+                });
+            });
+
+            // Show initial page based on URL hash or default to 'home'
+            const initialPage = window.location.hash.substring(1) || 'home';
+            showPage(initialPage);
+            
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', function() {
+                const pageIdFromHash = window.location.hash.substring(1) || 'home';
+                showPage(pageIdFromHash);
+            });
+        });
+    </script>
+
+</body>
+</html>
