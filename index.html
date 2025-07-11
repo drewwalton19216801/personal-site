@@ -10,7 +10,7 @@
     <meta property="og:description" content="Creative AI Enthusiast & Web Engineer. Making cool stuff with AI and code, and can help you do the same.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dwalton.info">
-    <meta property="og:image" content="https://dwalton.info/profilepic.jpg">
+    <meta property="og:image" content="https://dwalton.info/images/profilepic.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Drew Walton - Creative AI Enthusiast & Web Engineer">
@@ -21,7 +21,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Drew Walton | Digital Portfolio">
     <meta name="twitter:description" content="Creative AI Enthusiast & Web Engineer. Making cool stuff with AI and code, and can help you do the same.">
-    <meta name="twitter:image" content="https://dwalton.info/profilepic.jpg">
+    <meta name="twitter:image" content="https://dwalton.info/images/profilepic.jpg">
     <meta name="twitter:image:alt" content="Drew Walton - Creative AI Enthusiast & Web Engineer">
     
     <!-- Additional SEO Meta Tags -->
@@ -352,6 +352,129 @@
             color: var(--primary-color);
         }
 
+        /* Artwork Page */
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .artwork-card {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .artwork-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .artwork-thumbnail {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .artwork-card:hover .artwork-thumbnail {
+            transform: scale(1.05);
+        }
+
+        .artwork-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: #fff;
+            padding: 20px 15px 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+
+        .artwork-card:hover .artwork-info {
+            opacity: 1;
+        }
+
+        .artwork-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .artwork-info p {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .modal-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .modal-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .modal-info p {
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+
 
         /* ------------------- */
         /* 7. Media Queries (Desktop) */
@@ -399,10 +522,18 @@
                 flex-grow: 0;
                 flex-shrink: 0;
             }
+
+            /* Artwork Grid for tablets/desktops */
+            .artwork-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         @media (min-width: 1024px) {
             .project-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .artwork-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
@@ -422,7 +553,7 @@
         <!-- Page 1: Home -->
         <section id="home" class="page active">
             <div class="hero glass-container">
-                <img src="profilepic.jpg" alt="Profile Picture" class="profile-pic">
+                <img src="images/profilepic.jpg" alt="Profile Picture" class="profile-pic">
                 <h1>Drew Walton</h1>
                 <p class="subtitle">Creative AI Enthusiast & Web Engineer</p>
                 <p>
@@ -438,7 +569,7 @@
             <div class="project-grid">
                 <!-- Project 1 -->
                 <div class="project-card glass-container">
-                    <img src="trackwiserx.png" alt="TrackwiseRX Dashboard Screenshot">
+                    <img src="images/portfolio/trackwiserx.png" alt="TrackwiseRX Dashboard Screenshot">
                     <h3>TrackwiseRX</h3>
                     <p>A web app for tracking medication adherence and other health metrics.</p>
                     <div class="project-tags">
@@ -455,7 +586,7 @@
                 </div>
                 <!-- Project 2 -->
                 <div class="project-card glass-container">
-                    <img src="ourlovestory.png" alt="Our Love Story Website Screenshot">
+                    <img src="images/portfolio/ourlovestory.png" alt="Our Love Story Website Screenshot">
                     <h3>Our Love Story</h3>
                     <p>A web app for creating and sharing relationship milestones.</p>
                     <div class="project-tags">
@@ -473,7 +604,7 @@
                 </div>
                 <!-- Project 3 -->
                 <div class="project-card glass-container">
-                    <img src="cube3d.png" alt="Project 3 Screenshot">
+                    <img src="images/portfolio/cube3d.png" alt="Project 3 Screenshot">
                     <h3>cube3d</h3>
                     <p>A 3D cube renderer with per-pixel lighting using Rust and the Druid GUI framework.</p>
                     <div class="project-tags">
@@ -488,7 +619,22 @@
             </div>
         </section>
 
-        <!-- Page 3: Resume & Contact -->
+        <!-- Page 3: Artwork -->
+        <section id="artwork" class="page">
+            <h2>Artwork</h2>
+            <div class="artwork-grid">
+                <!-- Artwork 1 -->
+                <div class="artwork-card glass-container" data-artwork="rickroll">
+                    <img src="images/artwork/rickroll.png" alt="A Renaissance-style oil painting of a solemn young man in a brown cloak, standing on a hill under a cloudy sky. He holds out a parchment scroll inscribed with poetic text: 'Never gonna give you up, Never gonna let you down, Never gonna run around and desert you.' A tear runs down his cheek as he reaches toward a rider departing in the distance. The scroll is signed 'R. Astleius, 1587.'" class="artwork-thumbnail">
+                    <div class="artwork-info">
+                        <h3>The Vow</h3>
+                        <p>1587 • Renaissance-style oil painting</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 4: Resume & Contact -->
         <section id="resume" class="page">
             <h2>Resume & Contact</h2>
             <div class="resume-content">
@@ -539,11 +685,22 @@
         </section>
     </main>
 
+    <!-- Modal for Artwork Zoom -->
+    <div id="artworkModal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-info" id="modalInfo">
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
     <!-- Fixed Navigation Bar -->
     <nav class="glass-container">
         <ul>
             <li><a href="#home" class="nav-link" data-target="home"><i class="fas fa-home"></i><span class="nav-text"> Home</span></a></li>
             <li><a href="#portfolio" class="nav-link" data-target="portfolio"><i class="fas fa-folder-open"></i><span class="nav-text"> Portfolio</span></a></li>
+            <li><a href="#artwork" class="nav-link" data-target="artwork"><i class="fas fa-palette"></i><span class="nav-text"> Artwork</span></a></li>
             <li><a href="#resume" class="nav-link" data-target="resume"><i class="fas fa-file-alt"></i><span class="nav-text"> Resume</span></a></li>
         </ul>
     </nav>
@@ -601,6 +758,54 @@
             window.addEventListener('popstate', function() {
                 const pageIdFromHash = window.location.hash.substring(1) || 'home';
                 showPage(pageIdFromHash);
+            });
+
+            // Modal functionality for artwork
+            const modal = document.getElementById('artworkModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalClose = document.querySelector('.modal-close');
+            const artworkCards = document.querySelectorAll('.artwork-card');
+
+            // Open modal when artwork card is clicked
+            artworkCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const img = this.querySelector('.artwork-thumbnail');
+                    const title = this.querySelector('.artwork-info h3').textContent;
+                    const description = this.querySelector('.artwork-info p').textContent;
+                    
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = description;
+                    modal.style.display = 'block';
+                    
+                    // Prevent body scroll when modal is open
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close modal when clicking the close button
+            modalClose.addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
             });
         });
     </script>
