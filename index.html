@@ -58,6 +58,35 @@
             --border-radius: 16px;
         }
 
+        /* Light mode variables */
+        [data-theme="light"] {
+            --bg-color: #f8f9fa;
+            --text-color: #1a202c;
+            --primary-color: #0066cc;
+            --secondary-color: #8800cc;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.15);
+        }
+
+        /* Light mode specific overrides for better contrast */
+        [data-theme="light"] h1,
+        [data-theme="light"] h2,
+        [data-theme="light"] h3 {
+            color: #1a202c !important;
+        }
+
+        [data-theme="light"] .skills-list li {
+            background: rgba(0, 102, 204, 0.1);
+            color: #1a202c;
+            border: 1px solid rgba(0, 102, 204, 0.2);
+        }
+
+        [data-theme="light"] .tag {
+            background: rgba(0, 102, 204, 0.15) !important;
+            color: #0066cc !important;
+            border: 1px solid rgba(0, 102, 204, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -213,6 +242,41 @@
         
         .nav-text {
             display: none; /* Hide text on mobile */
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            -webkit-backdrop-filter: blur(var(--blur-value));
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .theme-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
         }
         
         /* ------------------- */
@@ -503,6 +567,12 @@
             .nav-text {
                 display: inline; /* Show text on desktop */
             }
+
+            /* Adjust theme toggle for desktop */
+            .theme-toggle {
+                top: 25px;
+                right: 25px;
+            }
             
             /* Portfolio Grid for tablets/desktops */
             .project-grid {
@@ -547,6 +617,11 @@
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
 
     <!-- Main Content Wrapper -->
     <main>
@@ -820,6 +895,40 @@
                 if (event.key === 'Escape' && modal.style.display === 'block') {
                     modal.style.display = 'none';
                     document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Theme Toggle Functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const body = document.body;
+
+            // Check for saved theme preference or default to dark mode
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            
+            // Apply the saved theme
+            if (savedTheme === 'light') {
+                body.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                body.removeAttribute('data-theme');
+                themeIcon.className = 'fas fa-moon';
+            }
+
+            // Theme toggle event listener
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = body.getAttribute('data-theme');
+                
+                if (currentTheme === 'light') {
+                    // Switch to dark mode
+                    body.removeAttribute('data-theme');
+                    themeIcon.className = 'fas fa-moon';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    // Switch to light mode
+                    body.setAttribute('data-theme', 'light');
+                    themeIcon.className = 'fas fa-sun';
+                    localStorage.setItem('theme', 'light');
                 }
             });
         });
