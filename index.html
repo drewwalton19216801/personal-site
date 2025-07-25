@@ -541,7 +541,35 @@
 
 
         /* ------------------- */
-        /* 7. Media Queries (Desktop) */
+        /* 7. Lazy Loading Styles */
+        /* ------------------- */
+        .lazy-image {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+        
+        .lazy-image.loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        [data-theme="light"] .lazy-image.loading {
+            background: linear-gradient(90deg, #e0e0e0 25%, #d0d0d0 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ------------------- */
+        /* 8. Media Queries (Desktop) */
         /* ------------------- */
         @media (min-width: 768px) {
             main {
@@ -628,7 +656,7 @@
         <!-- Page 1: Home -->
         <section id="home" class="page active">
             <div class="hero glass-container">
-                <img src="images/profilepic.jpg" alt="Profile Picture" class="profile-pic">
+                <img data-src="images/profilepic.jpg" alt="Profile Picture" class="profile-pic lazy-image">
                 <h1>Drew Walton</h1>
                 <p class="subtitle">Creative AI Enthusiast & Web Engineer</p>
                 <p>
@@ -644,7 +672,7 @@
             <div class="project-grid">
                 <!-- Project 1 -->
                 <div class="project-card glass-container">
-                    <img src="images/portfolio/trackwiserx.png" alt="TrackwiseRX Dashboard Screenshot">
+                    <img data-src="images/portfolio/trackwiserx.png" alt="TrackwiseRX Dashboard Screenshot" class="lazy-image">
                     <h3>TrackwiseRX</h3>
                     <p>A web app for tracking medication adherence and other health metrics.</p>
                     <div class="project-tags">
@@ -661,7 +689,7 @@
                 </div>
                 <!-- Project 2 -->
                 <div class="project-card glass-container">
-                    <img src="images/portfolio/ourlovestory.png" alt="Our Love Story Website Screenshot">
+                    <img data-src="images/portfolio/ourlovestory.png" alt="Our Love Story Website Screenshot" class="lazy-image">
                     <h3>Our Love Story</h3>
                     <p>A web app for creating and sharing relationship milestones.</p>
                     <div class="project-tags">
@@ -679,7 +707,7 @@
                 </div>
                 <!-- Project 3 -->
                 <div class="project-card glass-container">
-                    <img src="images/portfolio/cube3d.png" alt="Cube3D Screenshot">
+                    <img data-src="images/portfolio/cube3d.png" alt="Cube3D Screenshot" class="lazy-image">
                     <h3>cube3d</h3>
                     <p>A 3D cube renderer with per-pixel lighting using Rust and the Druid GUI framework.</p>
                     <div class="project-tags">
@@ -693,7 +721,7 @@
                 </div>
                 <!-- Project 4 -->
                 <div class="project-card glass-container">
-                    <img src="images/portfolio/tictactoe.png" alt="Tic Tac Toe Game Screenshot">
+                    <img data-src="images/portfolio/tictactoe.png" alt="Tic Tac Toe Game Screenshot" class="lazy-image">
                     <h3>Tic Tac Toe</h3>
                     <p>A simple Tic Tac Toe game built with HTML, CSS, and JavaScript.</p>
                     <div class="project-tags">
@@ -715,7 +743,7 @@
             <div class="artwork-grid">
                 <!-- Artwork 1 -->
                 <div class="artwork-card glass-container" data-artwork="rickroll">
-                    <img src="images/artwork/rickroll.png" alt="A Renaissance-style oil painting of a solemn young man in a brown cloak, standing on a hill under a cloudy sky. He holds out a parchment scroll inscribed with poetic text: 'Never gonna give you up, Never gonna let you down, Never gonna run around and desert you.' A tear runs down his cheek as he reaches toward a rider departing in the distance. The scroll is signed 'R. Astleius, 1587.'" class="artwork-thumbnail">
+                    <img data-src="images/artwork/rickroll.png" alt="A Renaissance-style oil painting of a solemn young man in a brown cloak, standing on a hill under a cloudy sky. He holds out a parchment scroll inscribed with poetic text: 'Never gonna give you up, Never gonna let you down, Never gonna run around and desert you.' A tear runs down his cheek as he reaches toward a rider departing in the distance. The scroll is signed 'R. Astleius, 1587.'" class="artwork-thumbnail lazy-image">
                     <div class="artwork-info">
                         <h3>The Vow</h3>
                         <p>1587 • Renaissance-style oil painting</p>
@@ -865,7 +893,9 @@
                     const title = this.querySelector('.artwork-info h3').textContent;
                     const description = this.querySelector('.artwork-info p').textContent;
                     
-                    modalImg.src = img.src;
+                    // Get image source (either from src or data-src for lazy loading)
+                    const imgSrc = img.src || img.getAttribute('data-src');
+                    modalImg.src = imgSrc;
                     modalImg.alt = img.alt;
                     modalTitle.textContent = title;
                     modalDescription.textContent = description;
@@ -931,6 +961,64 @@
                     localStorage.setItem('theme', 'light');
                 }
             });
+
+            // Lazy Loading Implementation
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            
+            // Create intersection observer for lazy loading
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // Add loading class for skeleton effect
+                        img.classList.add('loading');
+                        
+                        // Load the image
+                        const src = img.getAttribute('data-src');
+                        if (src) {
+                            img.src = src;
+                            
+                            // Handle successful load
+                            img.onload = () => {
+                                img.classList.remove('loading');
+                                img.classList.add('loaded');
+                                img.removeAttribute('data-src');
+                            };
+                            
+                            // Handle load error
+                            img.onerror = () => {
+                                img.classList.remove('loading');
+                                console.warn('Failed to load image:', src);
+                            };
+                        }
+                        
+                        // Stop observing this image
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                // Start loading when image is 100px away from viewport
+                rootMargin: '100px 0px',
+                threshold: 0.01
+            });
+            
+            // Start observing all lazy images
+            lazyImages.forEach(img => {
+                imageObserver.observe(img);
+            });
+            
+            // Fallback for browsers that don't support Intersection Observer
+            if (!('IntersectionObserver' in window)) {
+                lazyImages.forEach(img => {
+                    const src = img.getAttribute('data-src');
+                    if (src) {
+                        img.src = src;
+                        img.classList.add('loaded');
+                        img.removeAttribute('data-src');
+                    }
+                });
+            }
         });
     </script>
 
