@@ -1,0 +1,11 @@
+{
+  "id": "getting-started-with-ai",
+  "title": "Getting Started with AI Development",
+  "excerpt": "A beginner's guide to diving into the world of artificial intelligence and machine learning.",
+  "content": "<p>Artificial Intelligence is transforming the way we build software. Whether you're a seasoned developer or just starting out, there's never been a better time to explore AI development.</p><p><strong>Why AI Matters</strong></p><p>AI isn't just a buzzword—it's a fundamental shift in how we approach problem-solving. From automating repetitive tasks to creating intelligent user experiences, AI opens up possibilities that were unimaginable just a few years ago.</p><p><strong>Getting Started</strong></p><p>Here are some practical steps to begin your AI journey:</p><ul><li>Start with <em>Python</em> and libraries like TensorFlow or PyTorch</li><li>Understand the basics of machine learning algorithms</li><li>Practice with real datasets from Kaggle</li><li>Build small projects to reinforce your learning</li></ul><p>Remember, the key to mastering AI is consistent practice and staying curious about new developments in the field.</p>",
+  "author": "Drew Walton",
+  "date": "2025-09-01",
+  "category": "AI & Machine Learning",
+  "tags": ["AI", "Machine Learning", "Python", "Beginner"],
+  "featured": true
+}

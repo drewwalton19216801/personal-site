@@ -68,7 +68,23 @@
                     Welcome to my digital space. I make cool stuff with AI and code, and can help you do the same.
                 </p>
             </div>
-            <!-- You could add a "Latest Posts" section here -->
+            
+            <!-- Blog Section -->
+            <div class="blog-section">
+                <h2><i class="fas fa-blog"></i> Latest Posts</h2>
+                <div class="blog-grid" id="blogGrid">
+                    <!-- Blog posts will be loaded here dynamically -->
+                    <div class="blog-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading posts...</p>
+                    </div>
+                </div>
+                <div class="blog-view-all">
+                    <button class="view-all-btn" id="viewAllBtn" style="display: none;">
+                        <i class="fas fa-arrow-right"></i> View All Posts
+                    </button>
+                </div>
+            </div>
         </section>
 
         <!-- Page 2: Portfolio -->
@@ -231,6 +247,16 @@
         <div class="modal-info" id="modalInfo">
             <h3 id="modalTitle"></h3>
             <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <!-- Blog Post Modal -->
+    <div id="blogModal" class="blog-modal">
+        <div class="blog-modal-content">
+            <span class="blog-modal-close">&times;</span>
+            <div id="blogModalContent">
+                <!-- Blog post content will be loaded here -->
+            </div>
         </div>
     </div>
 
