@@ -193,4 +193,200 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Blog functionality
+    const blogGrid = document.getElementById('blogGrid');
+    const viewAllBtn = document.getElementById('viewAllBtn');
+    const blogModal = document.getElementById('blogModal');
+    const blogModalContent = document.getElementById('blogModalContent');
+    const blogModalClose = document.querySelector('.blog-modal-close');
+    
+    let allPosts = [];
+    let displayedPosts = 0;
+    const postsPerLoad = 3; // Show 3 posts initially
+
+    // Load blog posts
+    async function loadBlogPosts() {
+        try {
+            const postFiles = [
+                'getting-started-with-ai.json',
+                'modern-web-development.json',
+                'rust-for-systems-programming.json'
+            ];
+
+            const posts = await Promise.all(
+                postFiles.map(async (file) => {
+                    try {
+                        const response = await fetch(`posts/${file}`);
+                        if (!response.ok) throw new Error(`Failed to load ${file}`);
+                        return await response.json();
+                    } catch (error) {
+                        console.warn(`Could not load post: ${file}`, error);
+                        return null;
+                    }
+                })
+            );
+
+            // Filter out failed loads and sort by date (newest first)
+            allPosts = posts
+                .filter(post => post !== null)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            displayBlogPosts();
+        } catch (error) {
+            console.error('Error loading blog posts:', error);
+            showBlogError();
+        }
+    }
+
+    // Display blog posts
+    function displayBlogPosts() {
+        const loading = document.querySelector('.blog-loading');
+        if (loading) {
+            loading.remove();
+        }
+
+        const postsToShow = allPosts.slice(0, displayedPosts + postsPerLoad);
+        displayedPosts = postsToShow.length;
+
+        // Clear existing posts if this is the first load
+        if (displayedPosts === postsToShow.length) {
+            blogGrid.innerHTML = '';
+        }
+
+        postsToShow.forEach((post, index) => {
+            if (index >= displayedPosts - postsPerLoad) {
+                const postCard = createBlogCard(post);
+                blogGrid.appendChild(postCard);
+            }
+        });
+
+        // Show/hide "View All" button - only show if there are more than 6 posts total
+        if (allPosts.length > 6 && displayedPosts < allPosts.length) {
+            viewAllBtn.style.display = 'flex';
+        } else {
+            viewAllBtn.style.display = 'none';
+        }
+    }
+
+    // Calculate dynamic read time based on content length
+    function calculateReadTime(content) {
+        // Remove HTML tags and count words
+        const textContent = content.replace(/<[^>]*>/g, '');
+        const wordCount = textContent.trim().split(/\s+/).length;
+        // Average reading speed is 200-250 words per minute, using 225
+        const readTimeMinutes = Math.ceil(wordCount / 225);
+        return `${readTimeMinutes} min read`;
+    }
+
+    // Create blog card element
+    function createBlogCard(post) {
+        const card = document.createElement('div');
+        card.className = `blog-card glass-container${post.featured ? ' featured' : ''}`;
+        card.setAttribute('data-post-id', post.id);
+
+        const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Calculate dynamic read time
+        const dynamicReadTime = calculateReadTime(post.content);
+
+        card.innerHTML = `
+            <div class="blog-meta">
+                <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
+                <span><i class="fas fa-clock"></i> ${dynamicReadTime}</span>
+                <span><i class="fas fa-user"></i> ${post.author}</span>
+            </div>
+            <h3 class="blog-title">${post.title}</h3>
+            <p class="blog-excerpt">${post.excerpt}</p>
+            <div class="blog-category">${post.category}</div>
+            <div class="blog-tags">
+                ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
+            </div>
+        `;
+
+        // Add click event to open modal
+        card.addEventListener('click', () => openBlogModal(post));
+
+        return card;
+    }
+
+    // Open blog modal
+    function openBlogModal(post) {
+        const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Calculate dynamic read time for modal
+        const dynamicReadTime = calculateReadTime(post.content);
+
+        blogModalContent.innerHTML = `
+            <h1>${post.title}</h1>
+            <div class="blog-modal-meta">
+                <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
+                <span><i class="fas fa-clock"></i> ${dynamicReadTime}</span>
+                <span><i class="fas fa-user"></i> ${post.author}</span>
+                <span class="blog-category">${post.category}</span>
+            </div>
+            <div class="blog-tags">
+                ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
+            </div>
+            <div class="blog-modal-content-body">
+                ${post.content}
+            </div>
+        `;
+
+        blogModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close blog modal
+    function closeBlogModal() {
+        blogModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Show error message
+    function showBlogError() {
+        const loading = document.querySelector('.blog-loading');
+        if (loading) {
+            loading.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Unable to load blog posts. Please try again later.</p>
+            `;
+        }
+    }
+
+    // Event listeners for blog modal
+    if (blogModalClose) {
+        blogModalClose.addEventListener('click', closeBlogModal);
+    }
+
+    if (blogModal) {
+        blogModal.addEventListener('click', (event) => {
+            if (event.target === blogModal) {
+                closeBlogModal();
+            }
+        });
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && blogModal.style.display === 'block') {
+            closeBlogModal();
+        }
+    });
+
+    // View All button event listener
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', displayBlogPosts);
+    }
+
+    // Load blog posts when page loads
+    loadBlogPosts();
 });

@@ -1,0 +1,11 @@
+{
+  "id": "modern-web-development",
+  "title": "Modern Web Development: Beyond the Basics",
+  "excerpt": "Exploring advanced techniques and tools that are shaping the future of web development.",
+  "content": "<p>The web development landscape has evolved dramatically over the past few years. Today's developers have access to powerful tools and frameworks that make building complex applications more accessible than ever.</p><p><strong>The Modern Stack</strong></p><p>Modern web development isn't just about HTML, CSS, and JavaScript anymore. We're working with:</p><ul><li><strong>React</strong> and <strong>Vue.js</strong> for dynamic user interfaces</li><li><strong>Node.js</strong> for server-side JavaScript</li><li><strong>TypeScript</strong> for type-safe development</li><li><strong>Tailwind CSS</strong> for utility-first styling</li></ul><p><strong>Performance Matters</strong></p><p>With users expecting lightning-fast experiences, performance optimization has become crucial. Techniques like <em>lazy loading</em>, <em>code splitting</em>, and <em>progressive web apps</em> are no longer optional—they're essential.</p><p>The key is to balance functionality with performance, ensuring your applications are both feature-rich and fast.</p>",
+  "author": "Drew Walton",
+  "date": "2025-09-01",
+  "category": "Web Development",
+  "tags": ["React", "TypeScript", "Performance", "Frontend"],
+  "featured": false
+}
