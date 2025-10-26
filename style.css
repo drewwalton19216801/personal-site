@@ -838,8 +838,8 @@ nav a.active {
 @media (min-width: 768px) {
     main {
         padding: 40px;
-        padding-top: 100px;
-        /* Space for top nav */
+        padding-top: 120px;
+        /* Space for top nav with additional breathing room */
     }
 
     h1 {
