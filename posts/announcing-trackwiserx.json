@@ -1,0 +1,11 @@
+{
+  "id": "announcing-trackwiserx",
+  "title": "Announcing TrackwiseRX",
+  "excerpt": "Introducing TrackwiseRX: medication tracking and health analytics for patients who love their data, and the providers who support them.",
+  "content": "<p>I'm excited to announce the beta launch of <strong>TrackwiseRX</strong>, a comprehensive medication tracking and health analytics platform designed for patients who love their data, and the providers who support them.</p><p><strong>Built for Data Enthusiasts</strong></p><p>TrackwiseRX is built primarily for data and analytics nerds who want to dive deep into their health habits. Whether you're tracking medication adherence, monitoring side effects, or analyzing patterns in your health data, TrackwiseRX provides the tools you need to understand your health journey.</p><p><strong>Security First</strong></p><p>Your health information is sensitive, and we take that seriously. TrackwiseRX implements modern encryption schemes on all user data, ensuring the security of your PHI (Personal Health Information). Your data is protected with industry-leading security practices at every step.</p><p><strong>Secure Sharing</strong></p><p>Need to share your health information with medical providers? TrackwiseRX implements secure sharing using time-limited and data-limited links, giving you complete control over what you share and for how long. No more fumbling with paper records or insecure email attachments.</p><p><strong>About Trackwise Health LLC</strong></p><p>TrackwiseRX is built by <em>Trackwise Health LLC</em>, the company I founded to head the development of useful health tracking tools. Our mission is to empower patients and providers with the data and insights they need to make informed healthcare decisions.</p><p>If you're someone who loves diving into data and wants to take control of your health tracking, TrackwiseRX is for you. Stay tuned for more updates as we continue to build and improve the platform.</p>",
+  "author": "Drew Walton",
+  "date": "2025-10-25",
+  "category": "Product Announcements",
+  "tags": ["TrackwiseRX", "Health Tech", "Data Analytics", "Security", "PHI"],
+  "featured": true
+}
