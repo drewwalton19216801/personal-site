@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     let allPosts = [];
     let displayedPosts = 0;
-    const postsPerLoad = 3; // Show 3 posts initially
+    const postsPerLoad = 6; // Show 6 posts initially
 
     // Load blog posts
     async function loadBlogPosts() {
