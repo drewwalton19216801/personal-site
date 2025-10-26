@@ -208,11 +208,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load blog posts
     async function loadBlogPosts() {
         try {
-            const postFiles = [
-                'getting-started-with-ai.json',
-                'modern-web-development.json',
-                'rust-for-systems-programming.json'
-            ];
+            // Fetch the posts manifest file
+            const manifestResponse = await fetch('posts/posts.json');
+            if (!manifestResponse.ok) {
+                throw new Error('Failed to load posts manifest');
+            }
+            const manifest = await manifestResponse.json();
+            const postFiles = manifest.posts;
 
             const posts = await Promise.all(
                 postFiles.map(async (file) => {
