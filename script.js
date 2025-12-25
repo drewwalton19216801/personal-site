@@ -81,6 +81,210 @@ animate();
 // --- Terminal Logic ---
 const termInput = document.getElementById("term-input");
 const termOutput = document.getElementById("term-output");
+const snakeCanvas = document.getElementById("snake-canvas");
+const snakeCtx = snakeCanvas.getContext("2d");
+
+// Snake Game State
+let snakeGame = {
+  running: false,
+  snake: [],
+  direction: { x: 1, y: 0 },
+  nextDirection: { x: 1, y: 0 },
+  food: { x: 0, y: 0 },
+  gridSize: 20,
+  canvasSize: 400,
+  score: 0,
+  gameLoop: null,
+  speed: 150
+};
+
+// Initialize snake canvas
+snakeCanvas.width = snakeGame.canvasSize;
+snakeCanvas.height = snakeGame.canvasSize;
+
+function initSnakeGame() {
+  snakeGame.snake = [
+    { x: 10, y: 10 },
+    { x: 9, y: 10 },
+    { x: 8, y: 10 }
+  ];
+  snakeGame.direction = { x: 1, y: 0 };
+  snakeGame.nextDirection = { x: 1, y: 0 };
+  snakeGame.score = 0;
+  snakeGame.running = true;
+  spawnFood();
+  snakeCanvas.style.display = "block";
+  termInput.disabled = true;
+  termInput.placeholder = "Use arrow keys to control snake";
+  
+  if (snakeGame.gameLoop) clearInterval(snakeGame.gameLoop);
+  snakeGame.gameLoop = setInterval(updateSnakeGame, snakeGame.speed);
+}
+
+function spawnFood() {
+  const maxPos = snakeGame.canvasSize / snakeGame.gridSize;
+  do {
+    snakeGame.food = {
+      x: Math.floor(Math.random() * maxPos),
+      y: Math.floor(Math.random() * maxPos)
+    };
+  } while (snakeGame.snake.some(segment => segment.x === snakeGame.food.x && segment.y === snakeGame.food.y));
+}
+
+function updateSnakeGame() {
+  if (!snakeGame.running) return;
+
+  // Update direction
+  snakeGame.direction = { ...snakeGame.nextDirection };
+
+  // Calculate new head position
+  const head = {
+    x: snakeGame.snake[0].x + snakeGame.direction.x,
+    y: snakeGame.snake[0].y + snakeGame.direction.y
+  };
+
+  // Check wall collision
+  const maxPos = snakeGame.canvasSize / snakeGame.gridSize;
+  if (head.x < 0 || head.x >= maxPos || head.y < 0 || head.y >= maxPos) {
+    gameOver();
+    return;
+  }
+
+  // Check self collision
+  if (snakeGame.snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+    gameOver();
+    return;
+  }
+
+  // Add new head
+  snakeGame.snake.unshift(head);
+
+  // Check food collision
+  if (head.x === snakeGame.food.x && head.y === snakeGame.food.y) {
+    snakeGame.score += 10;
+    spawnFood();
+  } else {
+    snakeGame.snake.pop();
+  }
+
+  drawSnakeGame();
+}
+
+function drawSnakeGame() {
+  // Clear canvas
+  snakeCtx.fillStyle = "#000";
+  snakeCtx.fillRect(0, 0, snakeGame.canvasSize, snakeGame.canvasSize);
+
+  // Draw grid (subtle)
+  snakeCtx.strokeStyle = "#1a1a1a";
+  snakeCtx.lineWidth = 0.5;
+  for (let i = 0; i <= snakeGame.canvasSize; i += snakeGame.gridSize) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(i, 0);
+    snakeCtx.lineTo(i, snakeGame.canvasSize);
+    snakeCtx.stroke();
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(0, i);
+    snakeCtx.lineTo(snakeGame.canvasSize, i);
+    snakeCtx.stroke();
+  }
+
+  // Draw food
+  snakeCtx.fillStyle = "#ccff00";
+  snakeCtx.fillRect(
+    snakeGame.food.x * snakeGame.gridSize + 2,
+    snakeGame.food.y * snakeGame.gridSize + 2,
+    snakeGame.gridSize - 4,
+    snakeGame.gridSize - 4
+  );
+
+  // Draw snake
+  snakeGame.snake.forEach((segment, index) => {
+    snakeCtx.fillStyle = index === 0 ? "#ccff00" : "#888";
+    snakeCtx.fillRect(
+      segment.x * snakeGame.gridSize + 1,
+      segment.y * snakeGame.gridSize + 1,
+      snakeGame.gridSize - 2,
+      snakeGame.gridSize - 2
+    );
+  });
+
+  // Draw score
+  snakeCtx.fillStyle = "#ccff00";
+  snakeCtx.font = "14px JetBrains Mono";
+  snakeCtx.fillText(`Score: ${snakeGame.score}`, 10, snakeGame.canvasSize - 10);
+}
+
+function gameOver() {
+  snakeGame.running = false;
+  clearInterval(snakeGame.gameLoop);
+  
+  // Draw game over on canvas
+  snakeCtx.fillStyle = "rgba(0, 0, 0, 0.8)";
+  snakeCtx.fillRect(0, 0, snakeGame.canvasSize, snakeGame.canvasSize);
+  
+  snakeCtx.fillStyle = "#ccff00";
+  snakeCtx.font = "bold 24px JetBrains Mono";
+  snakeCtx.textAlign = "center";
+  snakeCtx.fillText("GAME OVER", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 - 20);
+  
+  snakeCtx.font = "16px JetBrains Mono";
+  snakeCtx.fillText(`Final Score: ${snakeGame.score}`, snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 10);
+  snakeCtx.fillText("Press 'r' to restart", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 40);
+  snakeCtx.textAlign = "left";
+}
+
+function stopSnakeGame() {
+  snakeGame.running = false;
+  if (snakeGame.gameLoop) clearInterval(snakeGame.gameLoop);
+  snakeCanvas.style.display = "none";
+  termInput.disabled = false;
+  termInput.placeholder = "";
+  termInput.focus();
+}
+
+// Keyboard controls for snake game
+document.addEventListener("keydown", function (e) {
+  if (!snakeGame.running && snakeCanvas.style.display === "block") {
+    // Game over state - allow restart
+    if (e.key.toLowerCase() === "r") {
+      initSnakeGame();
+    }
+    return;
+  }
+
+  if (!snakeGame.running) return;
+
+  switch (e.key) {
+    case "ArrowUp":
+      if (snakeGame.direction.y !== 1) {
+        snakeGame.nextDirection = { x: 0, y: -1 };
+      }
+      e.preventDefault();
+      break;
+    case "ArrowDown":
+      if (snakeGame.direction.y !== -1) {
+        snakeGame.nextDirection = { x: 0, y: 1 };
+      }
+      e.preventDefault();
+      break;
+    case "ArrowLeft":
+      if (snakeGame.direction.x !== 1) {
+        snakeGame.nextDirection = { x: -1, y: 0 };
+      }
+      e.preventDefault();
+      break;
+    case "ArrowRight":
+      if (snakeGame.direction.x !== -1) {
+        snakeGame.nextDirection = { x: 1, y: 0 };
+      }
+      e.preventDefault();
+      break;
+    case "Escape":
+      stopSnakeGame();
+      break;
+  }
+});
 
 termInput.addEventListener("keypress", function (e) {
   if (e.key === "Enter") {
@@ -90,7 +294,7 @@ termInput.addEventListener("keypress", function (e) {
     switch (command) {
       case "help":
         response =
-          "Available commands: \n- whoami: About Drew\n- stack: Tech stack\n- contact: Email me\n- clear: Clear terminal\n- snake: It's a joke, I didn't code snake here.";
+          "Available commands: \n- whoami: About Drew\n- stack: Tech stack\n- contact: Email me\n- clear: Clear terminal\n- snake: Play snake game!";
         break;
       case "whoami":
         response = "Drew Walton. Engineer. Builder. 2025.";
@@ -103,11 +307,13 @@ termInput.addEventListener("keypress", function (e) {
         window.location.href = "mailto:hi@dwalton.info";
         break;
       case "snake":
-        response = "Error: Python not found. Just kidding, maybe in v2.";
+        response = "Starting snake game...\nUse arrow keys to move. Press ESC to quit.";
+        initSnakeGame();
         break;
       case "clear":
         termOutput.innerText = "Visitor@DREW-PORTFOLIO:~$ ";
         this.value = "";
+        stopSnakeGame();
         return; // Exit early
       default:
         response = `Command not found: ${command}. Try 'help'.`;
