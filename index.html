@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Drew Walton | Digital Portfolio</title>
+    <title>DREW WALTON | Engineering Intelligence</title>
 
     <!-- OpenGraph Meta Tags -->
     <meta property="og:title" content="Drew Walton | Digital Portfolio" />
@@ -54,272 +54,285 @@
     <meta name="author" content="Drew Walton" />
     <meta name="robots" content="index, follow" />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://dwalton.info" />
-
+    <!-- Preconnect for Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Font Awesome for Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-
-    <link rel="stylesheet" href="style.css" />
+    <link href="style.css" rel="stylesheet" />
   </head>
   <body>
-    <!-- Generative Background -->
-    <canvas id="neural-canvas"></canvas>
-
-    <header>
-      <div class="container">
-        <nav>
-          <div class="logo">DREW<span>/</span>WALTON</div>
-          <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#stack">Stack</a></li>
-            <li><a href="#projects">Work</a></li>
-            <li><a href="#resume">Log</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
+    <!-- Navigation -->
+    <nav>
+      <div class="logo" id="logo-text">DREW/WALTON</div>
+      <div class="nav-links">
+        <a href="#hero">HOME</a>
+        <a href="#stack">CAPABILITIES</a>
+        <a href="#work">WORK</a>
+        <a href="#log">LOG</a>
+        <a href="mailto:hi@dwalton.info" style="color: var(--accent-lime)"
+          >CONTACT</a
+        >
       </div>
-    </header>
+    </nav>
 
-    <section id="about">
-      <div class="container about-content">
-        <span class="pre-title">> INITIALIZING...</span>
-        <h1>
-          Creative AI <br />
-          <span class="outline">Enthusiast</span> & <br />
-          Web Engineer.
+    <!-- Hero Section -->
+    <section id="hero">
+      <canvas id="hero-canvas"></canvas>
+      <div class="container hero-content">
+        <div class="section-title">SYSTEM STATUS: ONLINE</div>
+        <h1 class="hero-main-text">
+          ENGINEERING<br />
+          INTELLIGENCE.
         </h1>
-        <p class="about-subtitle">
-          I make cool stuff with AI and code, and can help you do the same.
+        <p class="hero-sub">
+          Creative AI Enthusiast & Web Engineer.<br />
+          Building the systems that build the future.
         </p>
-        <a href="#stack" class="btn">LEARN MORE</a>
-        <a href="#projects" class="btn">VIEW OUTPUTS</a>
+        <a href="#work" class="btn-main">VIEW OUTPUTS</a>
       </div>
     </section>
 
+    <!-- Capabilities Section -->
     <section id="stack">
       <div class="container">
         <div class="section-title">01. CAPABILITIES</div>
-        <div class="grid-container">
-          <!-- Card 1 -->
-          <div class="card">
-            <h3>Backend Engineering</h3>
-            <div class="tag-container">
-              <span class="tag">PHP</span>
-              <span class="tag">Laravel</span>
-              <span class="tag">Go</span>
+        <div class="bento-grid">
+          <!-- Backend Card -->
+          <div class="bento-card">
+            <h3>// BACKEND_ARCH</h3>
+            <p style="color: #666; margin-bottom: 15px; font-size: 0.9rem">
+              Robust server-side logic and high-performance systems.
+            </p>
+            <div class="tech-tags">
               <span class="tag">Rust</span>
+              <span class="tag">Go</span>
+              <span class="tag">PHP / Laravel</span>
+              <span class="tag">PostgreSQL</span>
             </div>
           </div>
-          <!-- Card 2 -->
-          <div class="card">
-            <h3>Creative AI</h3>
-            <div class="tag-container">
+
+          <!-- AI Card -->
+          <div
+            class="bento-card"
+            style="border-color: rgba(255, 255, 255, 0.2)"
+          >
+            <h3 style="color: var(--accent-lime)">// ARTIFICIAL_INTEL</h3>
+            <p style="color: #666; margin-bottom: 15px; font-size: 0.9rem">
+              Bridging the gap between code and creativity.
+            </p>
+            <div class="tech-tags">
               <span class="tag">Stable Diffusion</span>
-              <span class="tag">OpenAI Tooling</span>
+              <span class="tag">OpenAI API</span>
               <span class="tag">Claude Tooling</span>
-              <span class="tag">Gemini Tooling</span>
+              <span class="tag">LLM Integration</span>
             </div>
           </div>
-          <!-- Card 3 -->
-          <div class="card">
-            <h3>Operating Systems</h3>
-            <div class="tag-container">
-              <span class="tag">Windows</span>
+
+          <!-- OS Card -->
+          <div class="bento-card">
+            <h3>// ENVIRONMENTS</h3>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+              "
+            >
               <span class="tag">Linux</span>
               <span class="tag">macOS</span>
+              <span class="tag">Windows</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="projects">
+    <!-- Work Section -->
+    <section id="work">
       <div class="container">
         <div class="section-title">02. GENERATED OUTPUTS</div>
 
-        <!-- Project 1 -->
-        <div class="project-card">
-          <div
-            class="project-img"
-            style="background: linear-gradient(45deg, #111, #222)"
-          >
-            <img src="images/portfolio/rush.png" alt="Rush Shell" />
-          </div>
-          <div class="project-info">
-            <div class="project-role">OPERATING SYSTEM</div>
-            <h2>Rush shell</h2>
-            <p style="color: #aaa; margin-bottom: 20px">
-              An advanced command-line shell written in Rust with sh-style
-              scripting support.
-            </p>
-            <div class="tag-container">
-              <span class="tag">Rust</span>
-              <span class="tag">Unix Shell</span>
-              <span class="tag">Scripting</span>
+        <div class="project-list">
+          <!-- Project 1: Trackwise -->
+          <div class="project-item">
+            <div class="project-content">
+              <div class="project-meta">WEB APP / REACT / LARAVEL</div>
+              <h3>TrackwiseRX</h3>
+              <p class="project-desc">
+                A comprehensive web application for tracking medication
+                adherence and health metrics. Built for reliability and ease of
+                use in the healthcare space.
+              </p>
+              <a
+                href="https://trackwiserx.com"
+                target="_blank"
+                class="btn-main"
+                style="padding: 10px 20px; font-size: 0.9rem"
+                >VIEW PROJECT</a
+              >
             </div>
-            <div class="project-links">
+            <div class="project-visual">
+              <img
+                src="images/portfolio/trackwiserx.png"
+                alt="TrackwiseRX UI"
+                class="visual-track-img"
+              />
+            </div>
+          </div>
+
+          <!-- Project 2: Rush Shell -->
+          <div class="project-item">
+            <div class="project-content">
+              <div class="project-meta">SYSTEMS / RUST</div>
+              <h3>Rush Shell</h3>
+              <p class="project-desc">
+                An advanced command-line shell written in Rust. Features
+                sh-style scripting support and high-performance execution.
+              </p>
               <a
                 href="https://github.com/drewwalton19216801/rush-sh"
                 target="_blank"
-                class="btn"
-                >View on GitHub</a
+                class="btn-main"
+                style="padding: 10px 20px; font-size: 0.9rem"
+                >GITHUB</a
               >
             </div>
+            <div class="project-visual">
+              <div class="visual-shell">
+                $ rush-sh -c "whoami"<br />
+                drew<br />
+                $ <span style="animation: blink 1s infinite">█</span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- Project 2 -->
-        <div class="project-card">
-          <div class="project-info">
-            <div class="project-role">FRONTEND ARCHITECTURE</div>
-            <h2>TrackwiseRX</h2>
-            <p style="color: #aaa; margin-bottom: 20px">
-              A web app for tracking medication adherence and other health
-              metrics.
-            </p>
-            <div class="tag-container">
-              <span class="tag">PHP</span>
-              <span class="tag">Laravel</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">Tailwind CSS</span>
-              <span class="tag">React 19</span>
-              <span class="tag">Vite</span>
-            </div>
-            <div class="project-links">
-              <a href="https://trackwiserx.com/" target="_blank" class="btn"
-                >View on TrackwiseRX</a
-              >
-            </div>
-          </div>
-          <div
-            class="project-img"
-            style="background: linear-gradient(45deg, #0f2027, #203a43)"
-          >
-            <img src="images/portfolio/trackwiserx.png" alt="TrackwiseRX" />
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="project-card">
-          <div
-            class="project-img"
-            style="background: linear-gradient(45deg, #111, #222)"
-          >
-            <img src="images/portfolio/cube3d.png" alt="cube3d" />
-          </div>
-          <div class="project-info">
-            <div class="project-role">GRAPHICS</div>
-            <h2>cube3d</h2>
-            <p style="color: #aaa; margin-bottom: 20px">
-              A 3D cube renderer with per-pixel lighting using Rust and the
-              Druid GUI framework.
-            </p>
-            <div class="tag-container">
-              <span class="tag">Rust</span>
-              <span class="tag">Druid</span>
-              <span class="tag">Matrix Math</span>
-            </div>
-            <div class="project-links">
+          <!-- Project 3: Cube3d -->
+          <div class="project-item">
+            <div class="project-content">
+              <div class="project-meta">GRAPHICS / RUST / MATH</div>
+              <h3>Cube3d</h3>
+              <p class="project-desc">
+                A 3D rendering engine built from scratch using Rust and the
+                Druid GUI framework. Implements per-pixel lighting and matrix
+                mathematics without heavy game engines.
+              </p>
               <a
                 href="https://github.com/drewwalton19216801/cube3d"
                 target="_blank"
-                class="btn"
-                >View on GitHub</a
+                class="btn-main"
+                style="padding: 10px 20px; font-size: 0.9rem"
+                >GITHUB</a
               >
+            </div>
+            <div class="project-visual">
+              <div class="visual-cube"></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="resume">
+    <!-- Log Section (Resume) -->
+    <section id="log">
       <div class="container">
-        <div class="section-title">03. TRAINING LOG (RESUME)</div>
+        <div class="section-title">03. EXECUTION LOG</div>
 
-        <div class="resume-entry">
-          <span class="resume-date">2025 - PRESENT</span>
-          <h3>Founder</h3>
-          <h4>Trackwise Health LLC</h4>
-          <p style="color: #aaa">
-            Developed TrackwiseRX, a web app for tracking medication adherence
-            and other health metrics.
-          </p>
-        </div>
+        <div class="log-container">
+          <div class="log-entry">
+            <div class="log-time">[2025 - CURRENT]</div>
+            <div class="log-role">FOUNDER</div>
+            <div class="log-company">Trackwise Health LLC</div>
+            <p style="color: #666; font-size: 0.9rem; max-width: 500px">
+              Initiated startup sequence. Developing full-stack health tech
+              solutions. Leading architecture and product direction.
+            </p>
+          </div>
 
-        <div class="resume-entry">
-          <span class="resume-date">2020 - PRESENT</span>
-          <h3>IT Consultant</h3>
-          <h4>Freelance</h4>
-          <p style="color: #aaa">
-            Provided IT support and consulting services to small businesses and
-            individuals.
-          </p>
-        </div>
+          <div class="log-entry">
+            <div class="log-time">[2020 - CURRENT]</div>
+            <div class="log-role">IT CONSULTANT</div>
+            <div class="log-company">Freelance</div>
+            <p style="color: #666; font-size: 0.9rem; max-width: 500px">
+              Providing high-level support and custom engineering solutions for
+              SMBs and individuals.
+            </p>
+          </div>
 
-        <div class="resume-entry">
-          <span class="resume-date">2013 - 2019</span>
-          <h3>Co-Founder & System Administrator</h3>
-          <h4>BasketBuild LLC</h4>
-          <p style="color: #aaa">
-            Developed and maintained a custom file hosting web service for
-            Android developers.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container">
-        <div class="contact-box">
-          <span
-            style="
-              font-family: var(--font-code);
-              color: var(--accent-secondary);
-            "
-            >Let's Connect</span
-          >
-          <h2 style="margin: 20px 0">Ready to Collaborate?</h2>
-          <p style="color: #aaa">
-            I am currently open to commissions and full-time roles.
-          </p>
-          <a href="mailto:hi@dwalton.info" class="email-link"
-            >hi@dwalton.info</a
-          >
-          <div class="tag-container" style="justify-content: center">
-            <a
-              href="https://github.com/drewwalton19216801"
-              target="_blank"
-              class="btn"
-              >GITHUB</a
-            >
-            <a
-              href="https://linkedin.com/in/drewwalton19216801"
-              target="_blank"
-              class="btn"
-              >LINKEDIN</a
-            >
+          <div class="log-entry">
+            <div class="log-time">[2013 - 2019]</div>
+            <div class="log-role">CO-FOUNDER & SYSADMIN</div>
+            <div class="log-company">BasketBuild LLC</div>
+            <p style="color: #666; font-size: 0.9rem; max-width: 500px">
+              Architected custom file hosting services for the Android developer
+              community. Managed large-scale data traffic and server
+              infrastructure.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Footer -->
     <footer>
       <div class="container">
-        <p>DESIGNED & CODED BY HAND (AND A LITTLE AI).</p>
-        <p>&copy; 2025 DREW WALTON.</p>
+        <p
+          style="
+            color: var(--accent-lime);
+            font-family: var(--font-mono);
+            margin-bottom: 20px;
+          "
+        >
+          > END OF LINE
+        </p>
+        <div class="footer-cta">INITIALIZE COLLABORATION?</div>
+
+        <div class="social-links">
+          <a href="mailto:hi@dwalton.info" target="_blank">EMAIL</a>
+          <a href="https://github.com/drewwalton19216801" target="_blank"
+            >GITHUB</a
+          >
+          <a
+            href="https://www.linkedin.com/in/drewwalton19216801/"
+            target="_blank"
+            >LINKEDIN</a
+          >
+        </div>
+
+        <!-- Terminal Easter Egg -->
+        <div class="terminal-wrapper">
+          <div class="terminal-output" id="term-output">
+            Visitor@DREW-PORTFOLIO:~$ type 'help' for commands...
+          </div>
+          <div class="terminal-input-line">
+            <span>$</span>
+            <input
+              type="text"
+              class="terminal-input"
+              id="term-input"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        </div>
+
+        <p
+          style="
+            margin-top: 50px;
+            color: #444;
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+          "
+        >
+          © 2025 DREW WALTON. ALL RIGHTS RESERVED.
+        </p>
       </div>
     </footer>
-    <script type="module" src="script.js"></script>
+
+    <script src="script.js"></script>
   </body>
 </html>
