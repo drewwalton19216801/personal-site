@@ -458,6 +458,27 @@ footer {
   margin-left: 8px;
 }
 
+/* --- Snake Game Container --- */
+#snake-game-container {
+  display: none !important; /* Hidden by default, shown via JavaScript */
+  position: relative;
+  width: 400px;
+  max-width: 100%;
+  margin: 20px auto;
+}
+
+#snake-game-container[style*="display: block"] {
+  display: block !important; /* Allow JavaScript to show it */
+}
+
+#snake-canvas {
+  width: 100%;
+  height: auto;
+  border: 1px solid #333;
+  background: #000;
+  display: block;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero-main-text {
@@ -480,6 +501,7 @@ footer {
 
 /* --- Mobile D-Pad Controls --- */
 #dpad-controls {
+  display: none; /* Hidden by default, shown on touch devices via JavaScript */
   position: absolute;
   top: 0;
   left: 0;

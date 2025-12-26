@@ -86,6 +86,19 @@ const snakeCtx = snakeCanvas.getContext("2d");
 const dpadControls = document.getElementById("dpad-controls");
 const snakeGameContainer = document.getElementById("snake-game-container");
 
+// DEBUG: Log terminal dimensions on page load
+window.addEventListener('load', () => {
+  const termWrapper = document.querySelector('.terminal-wrapper');
+  console.log('=== TERMINAL DEBUG INFO ===');
+  console.log('Terminal wrapper height:', termWrapper.offsetHeight + 'px');
+  console.log('Terminal output height:', termOutput.offsetHeight + 'px');
+  console.log('Terminal output scrollHeight:', termOutput.scrollHeight + 'px');
+  console.log('Terminal output computed style:', window.getComputedStyle(termOutput).height);
+  console.log('Terminal wrapper computed style:', window.getComputedStyle(termWrapper).height);
+  console.log('Terminal output content:', termOutput.innerText);
+  console.log('==========================');
+});
+
 // Snake Game State
 let snakeGame = {
   running: false,
@@ -235,18 +248,22 @@ function gameOver() {
   snakeCtx.fillStyle = "#ccff00";
   snakeCtx.font = "bold 24px JetBrains Mono";
   snakeCtx.textAlign = "center";
-  snakeCtx.fillText("GAME OVER", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 - 20);
+  snakeCtx.fillText("GAME OVER", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 - 40);
   
   snakeCtx.font = "16px JetBrains Mono";
-  snakeCtx.fillText(`Final Score: ${snakeGame.score}`, snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 10);
+  snakeCtx.fillText(`Final Score: ${snakeGame.score}`, snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 - 10);
+  
+  // High score prompt
+  snakeCtx.font = "12px JetBrains Mono";
+  snakeCtx.fillStyle = "#ccff00";
+  snakeCtx.fillText("Got a high score?", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 20);
+  snakeCtx.fillText("Send it to hi@dwalton.info", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 35);
+  snakeCtx.fillText("with a screenshot!", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 50);
   
   // Check if touch device
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (isTouchDevice) {
-    snakeCtx.fillText("Tap to restart", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 40);
-  } else {
-    snakeCtx.fillText("Press 'r' to restart", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 40);
-  }
+  snakeCtx.fillStyle = "#ccff00";
+  snakeCtx.font = "14px JetBrains Mono";
+  snakeCtx.fillText("Press 'r' or tap to restart", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 75);
   snakeCtx.textAlign = "left";
 }
 
