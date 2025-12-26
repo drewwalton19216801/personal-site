@@ -83,6 +83,21 @@ const termInput = document.getElementById("term-input");
 const termOutput = document.getElementById("term-output");
 const snakeCanvas = document.getElementById("snake-canvas");
 const snakeCtx = snakeCanvas.getContext("2d");
+const dpadControls = document.getElementById("dpad-controls");
+const snakeGameContainer = document.getElementById("snake-game-container");
+
+// DEBUG: Log terminal dimensions on page load
+window.addEventListener('load', () => {
+  const termWrapper = document.querySelector('.terminal-wrapper');
+  console.log('=== TERMINAL DEBUG INFO ===');
+  console.log('Terminal wrapper height:', termWrapper.offsetHeight + 'px');
+  console.log('Terminal output height:', termOutput.offsetHeight + 'px');
+  console.log('Terminal output scrollHeight:', termOutput.scrollHeight + 'px');
+  console.log('Terminal output computed style:', window.getComputedStyle(termOutput).height);
+  console.log('Terminal wrapper computed style:', window.getComputedStyle(termWrapper).height);
+  console.log('Terminal output content:', termOutput.innerText);
+  console.log('==========================');
+});
 
 // Snake Game State
 let snakeGame = {
@@ -113,7 +128,14 @@ function initSnakeGame() {
   snakeGame.score = 0;
   snakeGame.running = true;
   spawnFood();
-  snakeCanvas.style.display = "block";
+  snakeGameContainer.style.display = "block";
+  
+  // Show d-pad on touch devices
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) {
+    dpadControls.style.display = "block";
+  }
+  
   termInput.disabled = true;
   termInput.placeholder = "Use arrow keys to control snake";
   
@@ -226,18 +248,30 @@ function gameOver() {
   snakeCtx.fillStyle = "#ccff00";
   snakeCtx.font = "bold 24px JetBrains Mono";
   snakeCtx.textAlign = "center";
-  snakeCtx.fillText("GAME OVER", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 - 20);
+  snakeCtx.fillText("GAME OVER", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 - 40);
   
   snakeCtx.font = "16px JetBrains Mono";
-  snakeCtx.fillText(`Final Score: ${snakeGame.score}`, snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 10);
-  snakeCtx.fillText("Press 'r' to restart", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 40);
+  snakeCtx.fillText(`Final Score: ${snakeGame.score}`, snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 - 10);
+  
+  // High score prompt
+  snakeCtx.font = "12px JetBrains Mono";
+  snakeCtx.fillStyle = "#ccff00";
+  snakeCtx.fillText("Got a high score?", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 20);
+  snakeCtx.fillText("Send it to hi@dwalton.info", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 35);
+  snakeCtx.fillText("with a screenshot!", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 50);
+  
+  // Check if touch device
+  snakeCtx.fillStyle = "#ccff00";
+  snakeCtx.font = "14px JetBrains Mono";
+  snakeCtx.fillText("Press 'r' or tap to restart", snakeGame.canvasSize / 2, snakeGame.canvasSize / 2 + 75);
   snakeCtx.textAlign = "left";
 }
 
 function stopSnakeGame() {
   snakeGame.running = false;
   if (snakeGame.gameLoop) clearInterval(snakeGame.gameLoop);
-  snakeCanvas.style.display = "none";
+  snakeGameContainer.style.display = "none";
+  dpadControls.style.display = "none";
   termInput.disabled = false;
   termInput.placeholder = "";
   termInput.focus();
@@ -245,7 +279,7 @@ function stopSnakeGame() {
 
 // Keyboard controls for snake game
 document.addEventListener("keydown", function (e) {
-  if (!snakeGame.running && snakeCanvas.style.display === "block") {
+  if (!snakeGame.running && snakeGameContainer.style.display === "block") {
     // Game over state - allow restart
     if (e.key.toLowerCase() === "r") {
       initSnakeGame();
@@ -286,6 +320,93 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
+// --- Mobile D-Pad Touch Controls ---
+const dpadQuadrants = document.querySelectorAll('.dpad-quadrant');
+
+function handleDirectionChange(direction) {
+  if (!snakeGame.running) return;
+
+  switch (direction) {
+    case 'up':
+      if (snakeGame.direction.y !== 1) {
+        snakeGame.nextDirection = { x: 0, y: -1 };
+      }
+      break;
+    case 'down':
+      if (snakeGame.direction.y !== -1) {
+        snakeGame.nextDirection = { x: 0, y: 1 };
+      }
+      break;
+    case 'left':
+      if (snakeGame.direction.x !== 1) {
+        snakeGame.nextDirection = { x: -1, y: 0 };
+      }
+      break;
+    case 'right':
+      if (snakeGame.direction.x !== -1) {
+        snakeGame.nextDirection = { x: 1, y: 0 };
+      }
+      break;
+  }
+}
+
+// Add touch event listeners to each d-pad quadrant
+dpadQuadrants.forEach(quadrant => {
+  const direction = quadrant.dataset.direction;
+
+  // Touch start
+  quadrant.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Check if game over - restart on tap
+    if (!snakeGame.running && snakeGameContainer.style.display === "block") {
+      initSnakeGame();
+      return;
+    }
+    
+    handleDirectionChange(direction);
+    quadrant.classList.add('active');
+  }, { passive: false });
+
+  // Touch end
+  quadrant.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    quadrant.classList.remove('active');
+  }, { passive: false });
+
+  // Touch cancel
+  quadrant.addEventListener('touchcancel', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    quadrant.classList.remove('active');
+  }, { passive: false });
+
+  // Mouse events for desktop testing
+  quadrant.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Check if game over - restart on click
+    if (!snakeGame.running && snakeGameContainer.style.display === "block") {
+      initSnakeGame();
+      return;
+    }
+    
+    handleDirectionChange(direction);
+    quadrant.classList.add('active');
+  });
+
+  quadrant.addEventListener('mouseup', function(e) {
+    quadrant.classList.remove('active');
+  });
+
+  quadrant.addEventListener('mouseleave', function(e) {
+    quadrant.classList.remove('active');
+  });
+});
+
 termInput.addEventListener("keypress", function (e) {
   if (e.key === "Enter") {
     const command = this.value.toLowerCase().trim();
@@ -307,7 +428,7 @@ termInput.addEventListener("keypress", function (e) {
         window.location.href = "mailto:hi@dwalton.info";
         break;
       case "snake":
-        response = "Starting snake game...\nUse arrow keys to move. Press ESC to quit.";
+        response = "Starting snake game...\nUse arrow keys or touch controls to move. Press ESC to quit.";
         initSnakeGame();
         break;
       case "clear":

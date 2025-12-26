@@ -318,8 +318,17 @@
               spellcheck="false"
             />
           </div>
-          <!-- Snake Game Canvas -->
-          <canvas id="snake-canvas" style="display: none; margin-top: 10px; border: 1px solid #333; background: #000;"></canvas>
+          <!-- Snake Game Container -->
+          <div id="snake-game-container">
+            <canvas id="snake-canvas"></canvas>
+            <!-- Mobile D-Pad Overlay -->
+            <div id="dpad-controls">
+              <div class="dpad-quadrant dpad-up" data-direction="up" style="pointer-events: auto;"></div>
+              <div class="dpad-quadrant dpad-down" data-direction="down" style="pointer-events: auto;"></div>
+              <div class="dpad-quadrant dpad-left" data-direction="left" style="pointer-events: auto;"></div>
+              <div class="dpad-quadrant dpad-right" data-direction="right" style="pointer-events: auto;"></div>
+            </div>
+          </div>
         </div>
 
         <p
