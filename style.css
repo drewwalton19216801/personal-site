@@ -477,3 +477,134 @@ footer {
     display: none;
   } /* Simplified for mobile */
 }
+
+/* --- Mobile D-Pad Controls --- */
+#dpad-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.dpad-quadrant {
+  position: absolute;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  touch-action: none;
+  pointer-events: auto;
+}
+
+.dpad-quadrant::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+/* Up quadrant - top triangle using clip-path */
+.dpad-up {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+}
+
+.dpad-up::before {
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 30px 50px 30px;
+  border-color: transparent transparent var(--accent-lime) transparent;
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.dpad-up:active::before,
+.dpad-up.active::before {
+  opacity: 0.8;
+}
+
+/* Down quadrant - bottom triangle using clip-path */
+.dpad-down {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0% 100%, 100% 100%, 50% 50%);
+}
+
+.dpad-down::before {
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 50px 30px 0 30px;
+  border-color: var(--accent-lime) transparent transparent transparent;
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.dpad-down:active::before,
+.dpad-down.active::before {
+  opacity: 0.8;
+}
+
+/* Left quadrant - left triangle using clip-path */
+.dpad-left {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0% 0%, 0% 100%, 50% 50%);
+}
+
+.dpad-left::before {
+  top: 50%;
+  left: 15%;
+  transform: translateY(-50%);
+  border-width: 30px 50px 30px 0;
+  border-color: transparent var(--accent-lime) transparent transparent;
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.dpad-left:active::before,
+.dpad-left.active::before {
+  opacity: 0.8;
+}
+
+/* Right quadrant - right triangle using clip-path */
+.dpad-right {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(100% 0%, 100% 100%, 50% 50%);
+}
+
+.dpad-right::before {
+  top: 50%;
+  right: 15%;
+  transform: translateY(-50%);
+  border-width: 30px 0 30px 50px;
+  border-color: transparent transparent transparent var(--accent-lime);
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.dpad-right:active::before,
+.dpad-right.active::before {
+  opacity: 0.8;
+}
+
+/* Show d-pad only on touch devices */
+@media (hover: hover) and (pointer: fine) {
+  #dpad-controls {
+    display: none !important;
+  }
+}
